@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "24.0.0 rc1"
+
+    defaultConfig {
+        applicationId "io.techery.sample"
+        minSdkVersion 21
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    maven { url "https://clojars.org/repo/" }
+    maven { url "https://jitpack.io" }
+}
+
+ext{
+    janetVersion = '45311f87c64f35929102cc24f89242d8e0347da7'
+    supportVersion = '23.2.1'
+}
+
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    // di
+    compile 'com.google.dagger:dagger:2.0.2'
+    apt 'com.google.dagger:dagger-compiler:2.0.2'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    // storage
+    compile 'com.github.techery:snapper:0.1.9'
+    // reactivity
+    compile 'io.reactivex:rxjava:1.1.1'
+    compile 'io.reactivex:rxjava-debug:1.0.3'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.trello:rxlifecycle:0.4.0'
+    compile 'com.trello:rxlifecycle-components:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    // ui
+    compile "com.android.support:appcompat-v7:${supportVersion}"
+    compile "com.android.support:recyclerview-v7:${supportVersion}"
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.techery.presenta:library-additions:db8cc3eeaac2f1df25c030863a449227714de091'
+    // util
+    provided 'org.immutables:value:2.1.15'
+    apt 'org.immutables:value:2.1.15'
+    provided 'org.immutables:gson:2.1.15'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton.timber:timber:4.1.0'
+    compile 'com.github.scribejava:scribejava-core:2.4.0'
+    compile 'frankiesardo:icepick:3.1.0'
+    apt 'frankiesardo:icepick-processor:3.1.0'
+    //janet
+    compile "com.github.techery.janet:http-service:${janetVersion}"
+    compile "com.github.techery.janet:janet:${janetVersion}"
+    compile "com.github.techery.janet:okhttp3:${janetVersion}"
+    compile "com.github.techery.janet:gson:${janetVersion}"
+    apt "com.github.techery.janet:http-service-compiler:${janetVersion}"
+    compile "com.github.techery.janet:command-service:${janetVersion}"
+
+    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.1.0'
+}

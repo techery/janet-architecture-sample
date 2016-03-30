@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Janet Architecture Sample</string>
+    <string name="btn_login">GitHub Connect</string>
+    <string name="progress_loading">Loading...</string>
+</resources>
