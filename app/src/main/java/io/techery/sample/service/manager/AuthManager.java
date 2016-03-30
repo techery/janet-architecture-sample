@@ -5,6 +5,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import io.techery.janet.ActionPipe;
 import io.techery.janet.Janet;
 import io.techery.janet.ReadActionPipe;
+import io.techery.sample.service.api.UserAction;
 import io.techery.sample.service.oauth.AccessTokenCommand;
 import io.techery.sample.storage.PreferenceWrapper;
 import rx.schedulers.Schedulers;

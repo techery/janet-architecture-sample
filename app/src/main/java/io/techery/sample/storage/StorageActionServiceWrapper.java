@@ -15,14 +15,18 @@ import io.techery.snapper.model.Indexable;
 
 public class StorageActionServiceWrapper extends ActionServiceWrapper {
 
-    private final Snapper snapper;
+    private final Context context;
+    private Snapper snapper;
 
     public StorageActionServiceWrapper(ActionService actionService, Context context) {
         super(actionService);
-        snapper = DroidSnapper.with(context);
+        this.context = context;
     }
 
     private <T extends Indexable> DataCollection<T> getCollection(Class<T> type, String key) {
+        if (snapper == null) {
+            snapper = DroidSnapper.with(context);
+        }
         DataCollection<T> collection = snapper.collection(type, key);
         while (true) {
             if (collection.isClosed()) {
@@ -34,7 +38,7 @@ public class StorageActionServiceWrapper extends ActionServiceWrapper {
         }
     }
 
-    @Override protected <A> boolean onInterceptSend(ActionHolder<A> holder) throws JanetException{
+    @Override protected <A> boolean onInterceptSend(ActionHolder<A> holder) throws JanetException {
         if (holder.action() instanceof CachedAction) {
             CachedAction action = (CachedAction) holder.action();
             CacheOptions options = action.getOptions();

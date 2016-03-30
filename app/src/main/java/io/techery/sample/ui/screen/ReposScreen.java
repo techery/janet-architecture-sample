@@ -12,12 +12,14 @@ import javax.inject.Inject;
 
 import flow.Flow;
 import io.techery.janet.ReadActionPipe;
+import io.techery.janet.helper.ActionStateSubscriber;
 import io.techery.presenta.addition.flow.path.Layout;
 import io.techery.presenta.mortarscreen.presenter.WithPresenter;
 import io.techery.sample.R;
 import io.techery.sample.model.Repository;
 import io.techery.sample.model.User;
 import io.techery.sample.service.api.ReposAction;
+import io.techery.sample.service.api.UserAction;
 import io.techery.sample.service.manager.ApiManager;
 import io.techery.sample.ui.ScreenPresenter;
 import io.techery.sample.ui.view.ReposView;
@@ -28,17 +30,17 @@ public class ReposScreen extends Screen {
 
     private final static Comparator<Repository> COMPARATOR = (lhs, rhs) -> lhs.name().compareTo(rhs.name());
 
-    private User user;
+    private User arg;
 
-    public ReposScreen(User user) {
-        this.user = user;
+    public ReposScreen(User arg) {
+        this.arg = arg;
     }
 
     public ReposScreen() {}
 
     @Override public String getTitle() {
-        if (user != null) {
-            return user.login();
+        if (arg != null) {
+            return arg.login();
         }
         return null;
     }
@@ -47,18 +49,15 @@ public class ReposScreen extends Screen {
 
         @Inject ApiManager apiManager;
 
+        private User user;
+
         private final ReadActionPipe<ReposAction> actionPipe;
 
         public Presenter(PresenterInjector injector) {
             super(injector);
+            this.user = ReposScreen.this.arg;
             actionPipe = apiManager.reposActionPipe()
-                    .filter(action -> {
-                        if (user != null) {
-                            return action.isOwn(user);
-                        } else {
-                            return action.isMine();
-                        }
-                    });
+                    .filter(action -> action.isOwn(user));
         }
 
         @Override protected void onLoad(Bundle savedInstanceState) {
@@ -88,11 +87,25 @@ public class ReposScreen extends Screen {
                     .toList());
         }
 
-        private void loadRepos(boolean restoreFromCache) {
-            if (user != null) {
-                apiManager.loadRepos(user, restoreFromCache);
+        public void onError(Throwable throwable) {
+            getView().setRefreshing(false);
+            Toast.makeText(activityHolder.activity(), throwable.getLocalizedMessage(), Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+        public void loadRepos(boolean restoreFromCache) {
+            if (user == null) {
+                bind(apiManager.userActionPipe()
+                        .createObservable(new UserAction()))
+                        .subscribe(new ActionStateSubscriber<UserAction>()
+                                .onStart(action -> getView().setRefreshing(true))
+                                .onFail((action, throwable) -> onError(throwable))
+                                .onSuccess(action -> {
+                                    user = action.getUser();
+                                    loadRepos(restoreFromCache);
+                                }));
             } else {
-                apiManager.loadRepos(restoreFromCache);
+                apiManager.loadRepos(user, restoreFromCache);
             }
         }
 

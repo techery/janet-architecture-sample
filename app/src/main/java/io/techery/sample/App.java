@@ -1,6 +1,7 @@
 package io.techery.sample;
 
 import android.app.Application;
+import android.os.Debug;
 
 import io.techery.presenta.mortar.DaggerService;
 import io.techery.sample.di.AppModule;

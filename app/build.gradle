@@ -33,7 +33,7 @@ repositories {
 }
 
 ext{
-    janetVersion = '45311f87c64f35929102cc24f89242d8e0347da7'
+    janetVersion = 'c6f3fb012dc920cbb3e8eeeaeb3d9b500abe884e'
     supportVersion = '23.2.1'
 }
 

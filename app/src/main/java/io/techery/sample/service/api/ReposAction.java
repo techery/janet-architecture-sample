@@ -12,11 +12,11 @@ import io.techery.sample.storage.CacheOptions;
 import io.techery.sample.storage.CachedAction;
 import io.techery.sample.storage.ImmutableCacheOptions;
 
-@HttpAction("/user{path}/repos")
+@HttpAction("/user/{user_id}/repos")
 public class ReposAction extends BaseAction implements CachedAction<Repository> {
 
-    @Path(value = "path", encode = false)
-    final String idStr;
+    @Path(value = "user_id", encode = false)
+    final String userId;
 
     @Response
     List<Repository> repositories;
@@ -27,22 +27,11 @@ public class ReposAction extends BaseAction implements CachedAction<Repository> 
     public ReposAction(User user, boolean restoreFromCache) {
         this.user = user;
         this.restoreFromCache = restoreFromCache;
-        this.idStr = "/" + user.id();
+        this.userId = user.id().toString();
     }
-
-    public ReposAction(boolean restoreFromCache) {
-        this.restoreFromCache = restoreFromCache;
-        this.idStr = "";
-        this.user = null;
-    }
-
 
     public boolean isOwn(User user) {
         return user != null && user.id().equals(this.user.id());
-    }
-
-    public boolean isMine() {
-        return user == null;
     }
 
     @Override public List<Repository> getData() {

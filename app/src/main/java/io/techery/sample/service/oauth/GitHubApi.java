@@ -1,7 +1,5 @@
 package io.techery.sample.service.oauth;
 
-import android.net.Uri;
-
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenExtractor;
 import com.github.scribejava.core.extractors.TokenExtractor;

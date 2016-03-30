@@ -3,6 +3,7 @@ package io.techery.sample.ui.screen;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -13,7 +14,6 @@ import io.techery.presenta.addition.flow.path.Layout;
 import io.techery.presenta.mortarscreen.presenter.WithPresenter;
 import io.techery.sample.R;
 import io.techery.sample.service.manager.AuthManager;
-import io.techery.sample.service.oauth.AccessTokenCommand;
 import io.techery.sample.ui.ScreenPresenter;
 import io.techery.sample.ui.view.LoginView;
 
@@ -36,10 +36,10 @@ public class LoginScreen extends Screen {
                     .onFail((command, throwable) ->
                             Toast.makeText(activityHolder.activity(), throwable.getLocalizedMessage(), Toast.LENGTH_SHORT)
                                     .show())
-                    .onSuccess(this::logined);
+                    .onSuccess(command -> logined());
         }
 
-        private void logined(AccessTokenCommand accessTokenCommand) {
+        private void logined() {
             getView().hideProgress();
             History history = History.single(new ReposScreen());
             Flow.get(getView()).setHistory(history, Flow.Direction.REPLACE);
