@@ -51,7 +51,6 @@ dependencies {
     compile 'io.reactivex:rxjava-debug:1.0.3'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.trello:rxlifecycle:0.4.0'
-    compile 'com.trello:rxlifecycle-components:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
     // ui
     compile "com.android.support:appcompat-v7:${supportVersion}"
@@ -65,8 +64,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton.timber:timber:4.1.0'
     compile 'com.github.scribejava:scribejava-core:2.4.0'
-    compile 'frankiesardo:icepick:3.1.0'
-    apt 'frankiesardo:icepick-processor:3.1.0'
     //janet
     compile "com.github.techery.janet:http-service:${janetVersion}"
     compile "com.github.techery.janet:janet:${janetVersion}"

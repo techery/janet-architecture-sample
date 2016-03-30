@@ -3,9 +3,9 @@ package io.techery.sample.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.gson.Gson;
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import javax.inject.Inject;
 
@@ -21,7 +21,7 @@ import io.techery.sample.presenta.MortarActivityHelper;
 import io.techery.sample.presenta.PresentaActivityHelper;
 import io.techery.sample.presenta.ToolbarHolder;
 
-public abstract class BaseActivity extends RxAppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private PresentaActivityHelper presenta;
     private MortarFramePathContainerView container;
