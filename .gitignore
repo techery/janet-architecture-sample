@@ -53,3 +53,4 @@ proguard/
 # svn
 *.svn*
 
+captures

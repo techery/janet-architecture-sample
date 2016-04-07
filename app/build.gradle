@@ -4,7 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "24.0.0 rc1"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "io.techery.sample"
@@ -33,7 +33,7 @@ repositories {
 }
 
 ext{
-    janetVersion = 'c6f3fb012dc920cbb3e8eeeaeb3d9b500abe884e'
+    janetVersion = '0.2.1'
     supportVersion = '23.2.1'
 }
 
@@ -73,4 +73,7 @@ dependencies {
     compile "com.github.techery.janet:command-service:${janetVersion}"
 
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.1.0'
+
+    testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:2.0.31-beta"
 }
