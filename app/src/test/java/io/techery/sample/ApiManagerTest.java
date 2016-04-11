@@ -9,7 +9,7 @@ import java.util.List;
 import io.techery.janet.ActionState;
 import io.techery.janet.Janet;
 import io.techery.janet.JanetException;
-import io.techery.sample.mock.MockHttpActionService;
+import io.techery.janet.http.test.MockHttpActionService;
 import io.techery.sample.model.ImmutableRepository;
 import io.techery.sample.model.ImmutableUser;
 import io.techery.sample.model.Repository;

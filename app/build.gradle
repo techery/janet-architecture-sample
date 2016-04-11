@@ -33,7 +33,7 @@ repositories {
 }
 
 ext{
-    janetVersion = '0.2.1'
+    janetVersion = '0.2.2'
     supportVersion = '23.2.1'
 }
 
