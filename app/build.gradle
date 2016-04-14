@@ -12,6 +12,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -32,9 +33,9 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 
-ext{
+ext {
     janetVersion = '0.2.2'
-    supportVersion = '23.2.1'
+    supportVersion = '23.3.0'
 }
 
 
@@ -57,13 +58,16 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${supportVersion}"
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.techery.presenta:library-additions:db8cc3eeaac2f1df25c030863a449227714de091'
+    compile 'co.trikita:anvil-sdk19:0.3.2'
+    compile 'co.trikita:anvil-support-v4:0.3.4'
+    compile 'co.trikita:anvil-appcompat-v7:0.3.4'
     // util
     provided 'org.immutables:value:2.1.15'
     apt 'org.immutables:value:2.1.15'
     provided 'org.immutables:gson:2.1.15'
-    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton.timber:timber:4.1.0'
     compile 'com.github.scribejava:scribejava-core:2.4.0'
+    compile 'com.android.support:multidex:1.0.1'
     //janet
     compile "com.github.techery.janet:http-service:${janetVersion}"
     compile "com.github.techery.janet:janet:${janetVersion}"

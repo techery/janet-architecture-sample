@@ -1,6 +1,8 @@
 package io.techery.sample.ui.screen;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.innahema.collections.query.queriables.Queryable;
@@ -13,9 +15,7 @@ import javax.inject.Inject;
 import flow.Flow;
 import io.techery.janet.ReadActionPipe;
 import io.techery.janet.helper.ActionStateSubscriber;
-import io.techery.presenta.addition.flow.path.Layout;
 import io.techery.presenta.mortarscreen.presenter.WithPresenter;
-import io.techery.sample.R;
 import io.techery.sample.model.Repository;
 import io.techery.sample.model.User;
 import io.techery.sample.service.api.ReposAction;
@@ -24,7 +24,6 @@ import io.techery.sample.service.manager.ApiManager;
 import io.techery.sample.ui.ScreenPresenter;
 import io.techery.sample.ui.view.ReposView;
 
-@Layout(R.layout.screen_repos)
 @WithPresenter(ReposScreen.Presenter.class)
 public class ReposScreen extends Screen {
 
@@ -36,18 +35,26 @@ public class ReposScreen extends Screen {
         this.arg = arg;
     }
 
-    public ReposScreen() {}
+    public ReposScreen() {
+    }
 
-    @Override public String getTitle() {
+    @Override
+    public String getTitle() {
         if (arg != null) {
             return arg.login();
         }
         return null;
     }
 
+    @Override
+    public View createView(Context context) {
+        return new ReposView(context);
+    }
+
     public class Presenter extends ScreenPresenter<ReposView> {
 
-        @Inject ApiManager apiManager;
+        @Inject
+        ApiManager apiManager;
 
         private User user;
 
@@ -60,7 +67,8 @@ public class ReposScreen extends Screen {
                     .filter(action -> action.isOwn(user));
         }
 
-        @Override protected void onLoad(Bundle savedInstanceState) {
+        @Override
+        protected void onLoad(Bundle savedInstanceState) {
             bindPipeCached(actionPipe)
                     .onStart((action) -> {
                         List<Repository> repositories = action.getData();

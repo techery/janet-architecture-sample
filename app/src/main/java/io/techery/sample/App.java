@@ -1,7 +1,8 @@
 package io.techery.sample;
 
 import android.app.Application;
-import android.os.Debug;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import io.techery.presenta.mortar.DaggerService;
 import io.techery.sample.di.AppModule;
@@ -12,10 +13,17 @@ public class App extends Application {
 
     private MortarScope rootScope;
 
-    @Override public void onCreate() {
+    @Override
+    public void onCreate() {
         super.onCreate();
         Timber.plant(new Timber.DebugTree());
         initMortar();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     private void initMortar() {

@@ -1,35 +1,40 @@
 package io.techery.sample.ui.screen;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Debug;
+import android.view.View;
 import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import flow.Flow;
 import flow.History;
-import io.techery.presenta.addition.flow.path.Layout;
 import io.techery.presenta.mortarscreen.presenter.WithPresenter;
-import io.techery.sample.R;
 import io.techery.sample.service.manager.AuthManager;
 import io.techery.sample.ui.ScreenPresenter;
 import io.techery.sample.ui.view.LoginView;
 
-@Layout(R.layout.screen_login)
 @WithPresenter(LoginScreen.Presenter.class)
 public class LoginScreen extends Screen {
 
+    @Override
+    public View createView(Context context) {
+        return new LoginView(context);
+    }
+
     public static class Presenter extends ScreenPresenter<LoginView> {
 
-        @Inject AuthManager authManager;
+        @Inject
+        AuthManager authManager;
 
         public Presenter(PresenterInjector injector) {
             super(injector);
         }
 
-        @Override protected void onLoad(Bundle savedInstanceState) {
+        @Override
+        protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
             bindPipeCached(authManager.accessTokenCommandPipe())
                     .onStart((command) -> getView().showProgress())
