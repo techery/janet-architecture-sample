@@ -3,22 +3,20 @@ package io.techery.sample.ui.view;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.annotation.StringRes;
-import android.util.AttributeSet;
-import android.widget.FrameLayout;
 
-import butterknife.ButterKnife;
 import io.techery.presenta.mortar.PresenterService;
 import io.techery.presenta.mortarscreen.presenter.InjectablePresenter;
 import io.techery.sample.R;
+import trikita.anvil.RenderableView;
 
-public class ScreenView<T extends InjectablePresenter> extends FrameLayout {
+public abstract class ScreenView<T extends InjectablePresenter> extends RenderableView {
 
     protected T presenter;
 
     private final ProgressDialog progress;
 
-    public ScreenView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public ScreenView(Context context) {
+        super(context);
         if (!isInEditMode()) {
             presenter = PresenterService.getPresenter(context);
         }
@@ -28,19 +26,16 @@ public class ScreenView<T extends InjectablePresenter> extends FrameLayout {
         progress.setCancelable(false);
     }
 
-    @Override protected void onFinishInflate() {
-        super.onFinishInflate();
-        ButterKnife.bind(this);
-    }
-
-    @Override protected void onAttachedToWindow() {
+    @Override
+    public void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (!isInEditMode()) {
             presenter.takeView(this);
         }
     }
 
-    @Override protected void onDetachedFromWindow() {
+    @Override
+    public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (!isInEditMode()) {
             presenter.dropView(this);

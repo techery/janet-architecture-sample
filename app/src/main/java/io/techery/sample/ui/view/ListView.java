@@ -2,23 +2,80 @@ package io.techery.sample.ui.view;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 
-import butterknife.Bind;
+import java.util.ArrayList;
+import java.util.List;
+
 import io.techery.presenta.mortarscreen.presenter.InjectablePresenter;
-import io.techery.sample.R;
+import trikita.anvil.DSL;
+import trikita.anvil.RenderableAdapter;
+import trikita.anvil.Supportv4DSL;
 
-public abstract class ListView<T extends InjectablePresenter> extends ScreenView<T> {
+import static trikita.anvil.Anvil.render;
+import static trikita.anvil.BaseDSL.FILL;
+import static trikita.anvil.BaseDSL.MATCH;
+import static trikita.anvil.BaseDSL.size;
+import static trikita.anvil.DSL.adapter;
+import static trikita.anvil.DSL.listView;
+import static trikita.anvil.RenderableAdapter.withItems;
+import static trikita.anvil.Supportv4DSL.refreshing;
+import static trikita.anvil.Supportv4DSL.swipeRefreshLayout;
 
-    @Bind(R.id.swipe_layout) SwipeRefreshLayout refreshLayout;
-    @Bind(R.id.recycler_view) RecyclerView recyclerView;
+public abstract class ListView<T extends InjectablePresenter, I> extends ScreenView<T> {
 
-    public ListView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    private boolean refreshing;
+    private SwipeRefreshLayout.OnRefreshListener onRefreshListener;
+    private OnItemClickListener<I> onItemClickListener;
+    private List<I> items = new ArrayList<>();
+    private final RenderableAdapter adapter = withItems(items, onCreateItemView());
+
+    public ListView(Context context) {
+        super(context);
     }
 
-    public void setRefreshing(boolean refreshing){
-        refreshLayout.setRefreshing(refreshing);
+    protected abstract RenderableAdapter.Item<I> onCreateItemView();
+
+    public final void updateItems(List<I> items) {
+        this.items.clear();
+        this.items.addAll(items);
+        adapter.notifyDataSetChanged();
+    }
+
+    public final void setRefreshing(boolean refreshing) {
+        this.refreshing = refreshing;
+        render();
+    }
+
+    public final void onRefresh(SwipeRefreshLayout.OnRefreshListener onRefreshListener) {
+        this.onRefreshListener = onRefreshListener;
+    }
+
+    public final void onItemClick(OnItemClickListener<I> onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    @Override
+    public final void view() {
+        swipeRefreshLayout(() -> {
+            size(MATCH, MATCH);
+            refreshing(refreshing);
+            Supportv4DSL.onRefresh(() -> {
+                if (onRefreshListener != null)
+                    onRefreshListener.onRefresh();
+            });
+            listView(() -> {
+                size(MATCH, MATCH);
+                adapter(adapter);
+                DSL.onItemClick((parent, view, position, id) -> {
+                    if (onItemClickListener != null)
+                        onItemClickListener.onItemClick(items.get(position));
+                });
+            });
+        });
+        adapter.notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener<I> {
+        void onItemClick(I item);
     }
 }

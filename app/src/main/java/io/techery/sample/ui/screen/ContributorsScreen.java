@@ -1,6 +1,8 @@
 package io.techery.sample.ui.screen;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.innahema.collections.query.queriables.Queryable;
@@ -12,9 +14,7 @@ import javax.inject.Inject;
 
 import flow.Flow;
 import io.techery.janet.ReadActionPipe;
-import io.techery.presenta.addition.flow.path.Layout;
 import io.techery.presenta.mortarscreen.presenter.WithPresenter;
-import io.techery.sample.R;
 import io.techery.sample.model.Repository;
 import io.techery.sample.model.User;
 import io.techery.sample.service.api.ContributorsAction;
@@ -23,7 +23,6 @@ import io.techery.sample.ui.ScreenPresenter;
 import io.techery.sample.ui.view.ContributorsView;
 
 
-@Layout(R.layout.screen_contributors)
 @WithPresenter(ContributorsScreen.Presenter.class)
 public class ContributorsScreen extends Screen {
 
@@ -31,15 +30,24 @@ public class ContributorsScreen extends Screen {
 
     private final Repository repository;
 
-    public ContributorsScreen(Repository repository) {this.repository = repository;}
+    public ContributorsScreen(Repository repository) {
+        this.repository = repository;
+    }
 
-    @Override public String getTitle() {
+    @Override
+    public String getTitle() {
         return repository.name();
+    }
+
+    @Override
+    public View createView(Context context) {
+        return new ContributorsView(context);
     }
 
     public class Presenter extends ScreenPresenter<ContributorsView> {
 
-        @Inject ApiManager apiManager;
+        @Inject
+        ApiManager apiManager;
 
         private final ReadActionPipe<ContributorsAction> actionPipe;
 
@@ -49,7 +57,8 @@ public class ContributorsScreen extends Screen {
                     .filter(action -> action.getRepository().equals(repository));
         }
 
-        @Override protected void onLoad(Bundle savedInstanceState) {
+        @Override
+        protected void onLoad(Bundle savedInstanceState) {
             bindPipeCached(actionPipe)
                     .onStart((action) -> {
                         List<User> data = action.getData();

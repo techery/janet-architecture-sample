@@ -8,7 +8,6 @@ import dagger.Component;
 import io.techery.presenta.di.ApplicationScope;
 import io.techery.sample.di.RootModule;
 import io.techery.sample.presenta.ActivityHolder;
-import io.techery.sample.presenta.ToolbarHolder;
 import io.techery.sample.service.CommandsComponent;
 import io.techery.sample.service.manager.ApiManager;
 import io.techery.sample.service.manager.AuthManager;
@@ -16,14 +15,18 @@ import io.techery.sample.storage.PreferenceWrapper;
 
 @ApplicationScope
 @Component(modules = RootModule.class)
-public interface AppComponent extends CommandsComponent{
+public interface AppComponent extends CommandsComponent {
 
     Gson gson();
+
     ActivityHolder activityHolder();
-    ToolbarHolder toolbarHolder();
+
     OAuth20Service oAuthService();
+
     PreferenceWrapper preferenceWrapper();
+
     AuthManager authManager();
+
     ApiManager apiManager();
 
     void inject(App app);

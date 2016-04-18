@@ -12,25 +12,25 @@ import javax.inject.Inject;
 import flow.Flow;
 import flow.History;
 import flow.path.Path;
-import io.techery.presenta.addition.MortarFramePathContainerView;
+import io.techery.presenta.addition.FramePathContainerView;
 import io.techery.presenta.addition.flow.util.GsonParceler;
 import io.techery.sample.di.ActivityModule;
 import io.techery.sample.presenta.ActivityHolder;
 import io.techery.sample.presenta.FlowActivityHelper;
 import io.techery.sample.presenta.MortarActivityHelper;
 import io.techery.sample.presenta.PresentaActivityHelper;
-import io.techery.sample.presenta.ToolbarHolder;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     private PresentaActivityHelper presenta;
-    private MortarFramePathContainerView container;
+    private FramePathContainerView container;
 
-    @Inject Gson gson;
-    @Inject ActivityHolder activityHolder;
-    @Inject ToolbarHolder toolbarHolder;
+    @Inject
+    Gson gson;
+    @Inject
+    ActivityHolder activityHolder;
 
-    protected void initPresenta(MortarFramePathContainerView container, Bundle savedInstanceState, OnFlowDispatchCallback callback) {
+    protected void initPresenta(FramePathContainerView container, Bundle savedInstanceState, OnFlowDispatchCallback callback) {
         this.container = container;
         // Init mortar
         MortarActivityHelper mortarHelper = new MortarActivityHelper(this, ActivityComponent.class, new ActivityModule(this));
@@ -111,10 +111,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private static class MainFlowDispatcher implements Flow.Dispatcher {
 
-        private final MortarFramePathContainerView container;
+        private final FramePathContainerView container;
         private OnFlowDispatchCallback dispatchCallback;
 
-        public MainFlowDispatcher(MortarFramePathContainerView container, OnFlowDispatchCallback callback) {
+        public MainFlowDispatcher(FramePathContainerView container, OnFlowDispatchCallback callback) {
             this.container = container;
             this.dispatchCallback = callback;
         }
