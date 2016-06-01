@@ -12,6 +12,7 @@ import io.techery.sample.ui.view.ScreenView;
 import io.techery.sample.utils.ActionPipeCacheWiper;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.internal.util.UtilityFunctions;
 
 public class ScreenPresenter<V extends ScreenView> extends InjectablePresenter<V> {
 

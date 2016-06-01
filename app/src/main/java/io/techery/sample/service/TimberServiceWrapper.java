@@ -46,7 +46,8 @@ public class TimberServiceWrapper extends ActionServiceWrapper {
         timber().i("Action succeeded: %s", holder.action());
     }
 
-    @Override protected <A> void onInterceptFail(ActionHolder<A> holder, JanetException e) {
+    @Override protected <A> boolean onInterceptFail(ActionHolder<A> holder, JanetException e) {
         timber().w(e, "Action failed: %s", holder.action());
+        return false;
     }
 }

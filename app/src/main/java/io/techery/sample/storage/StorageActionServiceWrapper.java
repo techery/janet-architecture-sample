@@ -76,6 +76,8 @@ public class StorageActionServiceWrapper extends ActionServiceWrapper {
         }
     }
 
-    @Override protected <A> void onInterceptFail(ActionHolder<A> holder, JanetException e) {}
+    @Override protected <A> boolean onInterceptFail(ActionHolder<A> holder, JanetException e) {
+        return false;
+    }
 
 }

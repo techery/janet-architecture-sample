@@ -24,6 +24,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    lintOptions{
+        abortOnError false
+    }
 }
 
 repositories {
@@ -34,7 +37,6 @@ repositories {
 }
 
 ext {
-    janetVersion = '0.2.2'
     supportVersion = '23.3.0'
 }
 
@@ -69,12 +71,12 @@ dependencies {
     compile 'com.github.scribejava:scribejava-core:2.4.0'
     compile 'com.android.support:multidex:1.0.1'
     //janet
-    compile "com.github.techery.janet:http-service:${janetVersion}"
-    compile "com.github.techery.janet:janet:${janetVersion}"
-    compile "com.github.techery.janet:okhttp3:${janetVersion}"
-    compile "com.github.techery.janet:gson:${janetVersion}"
-    apt "com.github.techery.janet:http-service-compiler:${janetVersion}"
-    compile "com.github.techery.janet:command-service:${janetVersion}"
+    compile 'com.github.techery:janet:1.0.4'
+    compile 'com.github.techery.janet-http:service:1.0.4'
+    apt     'com.github.techery.janet-http:service-compiler:1.0.4'
+    compile 'com.github.techery.janet-http:client-okhttp3:1.0.4'
+    compile 'com.github.techery.janet-converters:gson:1.0.1'
+    compile 'com.github.techery:janet-command:1.0.2'
 
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.1.0'
 
